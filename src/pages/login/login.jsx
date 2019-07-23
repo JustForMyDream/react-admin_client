@@ -13,10 +13,24 @@ class Login  extends Component {
 
     handleSubmit = (e) =>{
         e.preventDefault();
-        const form = this.props.form;
-        const values = form.getFieldsValue();
-        console.log("handleSubmit()",values)
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+            }else {
+                console.log("校验失败")
+            }
+        });
     }
+
+    validatorPwd = (rule, value, callback) =>{
+        if(!value){
+            callback("密码必须输入")
+        }else if(value.length<4){
+            callback("密码不能小于4")
+        }
+        callback();
+    }
+
 
 
     render() {
@@ -48,7 +62,11 @@ class Login  extends Component {
                         </Item>
                         <Item>
                             {getFieldDecorator('password', {
-                                rules: [{ required: true, message: 'Please input your username!' }],
+                                rules: [
+                                    {
+                                        validator: this.validatorPwd
+                                    }
+                                ]
                             })(
                                 <Input
                                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
