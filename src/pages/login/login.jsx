@@ -1,15 +1,27 @@
 import React, {Component} from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button  } from 'antd';
 import './login.less'
 import logo from './images/logo.png'
 
-export default class Login  extends Component {
+const Item = Form.Item;
+
+class Login  extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
 
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        const form = this.props.form;
+        const values = form.getFieldsValue();
+        console.log("handleSubmit()",values)
+    }
+
+
     render() {
+        const form  = this.props.form;
+        const  {getFieldDecorator} = form;
         return (
             <div className="login">
                 <header className="login-header">
@@ -18,28 +30,44 @@ export default class Login  extends Component {
                 </header>
                 <section className="login-content">
                     <h2>用户登录</h2>
-                    <Form layout="inline" onSubmit={this.handleSubmit}>
-                        <Form.Item>
-                            <Input
-                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Username"
-                            />
-                        </Form.Item>
-                        <Form.Item>
-                            <Input
-                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                type="password"
-                                placeholder="Password"
-                            />
-                        </Form.Item>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit" >
+                    <Form onSubmit={this.handleSubmit} className="login-form">
+                        <Item>
+                            {getFieldDecorator('username', {
+                                rules: [
+                                    { required: true, message: '请输入用户名' },
+                                    { max: 12,message: '用户名不能超过12位'},
+                                    { min: 4,message: '用户名不能少于4位'},
+                                    { pattern: /^[a-zA-Z0-9_]+$/,message: '必须为字母和数字'},
+                                    ],
+                            })(
+                                <Input
+                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    placeholder="账号"
+                                />,
+                            )}
+                        </Item>
+                        <Item>
+                            {getFieldDecorator('password', {
+                                rules: [{ required: true, message: 'Please input your username!' }],
+                            })(
+                                <Input
+                                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    type="password"
+                                    placeholder="密码"
+                                />,
+                            )}
+                        </Item>
+                        <Item>
+                            <Button type="primary" htmlType="submit" className="login-form-button">
                                 Log in
                             </Button>
-                        </Form.Item>
+                        </Item>
                     </Form>
                 </section>
             </div>
         )
     }
 }
+
+const WarpLogin = Form.create()(Login)
+export default WarpLogin
