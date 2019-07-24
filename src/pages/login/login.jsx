@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Form, Icon, Input, Button  } from 'antd';
 import './login.less'
 import logo from './images/logo.png'
+import {relogin} from  '../../api/index'
 
 const Item = Form.Item;
 
@@ -16,10 +17,18 @@ class Login  extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+
+                const {username,password} = values;
+                relogin(username,password).then(response=>{
+                    console.log(response)
+                }).catch(err=>{
+                    console.log(err)
+                })
             }else {
                 console.log("校验失败")
             }
         });
+
     }
 
     validatorPwd = (rule, value, callback) =>{
