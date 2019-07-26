@@ -3,17 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.4.4",
     "antd": "^3.20.5",
     "axios": "^0.19.0",
     "babel-plugin-import": "^1.12.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "customize-cra": "^0.4.1",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
+    "mobx": "^5.13.0",
+    "mobx-react": "^6.1.1",
     "react": "^16.8.6",
     "react-app-rewired": "^2.1.3",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "store": "^2.0.12"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -35,6 +40,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy":"http://loclhost:8080"
+  }
 }

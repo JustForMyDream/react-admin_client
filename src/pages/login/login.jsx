@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import { Form, Icon, Input, Button  } from 'antd';
+import { Form, Icon, Input, Button,message  } from 'antd';
 import './login.less'
-import logo from './images/logo.png'
+import logo from '../../assets/images/logo.png'
 import {relogin} from  '../../api/index'
+import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils'
 
 const Item = Form.Item;
 
@@ -20,7 +22,13 @@ class Login  extends Component {
 
                 const {username,password} = values;
                 relogin(username,password).then(response=>{
-                    console.log(response)
+                    if(response.data.code === 200){
+                        memoryUtils.user = response.data.user;
+                        storageUtils.saveUser(response.data.user);
+                        this.props.history.replace("/")
+                    }else{
+                        message.error("登录失败")
+                    }
                 }).catch(err=>{
                     console.log(err)
                 })
